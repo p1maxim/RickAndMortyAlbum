@@ -1,13 +1,16 @@
-package com.example.rickandmortyalbum.data.remote
+package com.example.rickandmortyalbum.data.repository
 
 import androidx.core.net.toUri
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.rickandmortyalbum.data.model.CharacterItem
+import com.example.rickandmortyalbum.data.remote.CharacterRemoteService
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
+// Paging source to get Characters data from Network without caching in local DB
 class CharacterPagingSource @Inject constructor(
     private val characterRemoteService: CharacterRemoteService,
     private val nameOfCharacter: String?
@@ -18,10 +21,9 @@ class CharacterPagingSource @Inject constructor(
             val pageNumber = params.key ?: 1
             val response = characterRemoteService.getAllCharacters(pageNumber, nameOfCharacter)
             val prevPage = if (pageNumber > 0) pageNumber - 1 else null
-            val nextPage = if (response.body()?.page?.next != null) {
-                response.body()?.page?.next?.toUri()?.getQueryParameter("page")?.toInt()
+            val nextPage = if (response.body()?.info?.next != null) {
+                response.body()?.info?.next?.toUri()?.getQueryParameter("page")?.toInt()
             } else null
-
             LoadResult.Page(
                 data = response.body()?.results ?: emptyList(),
                 prevKey = prevPage,

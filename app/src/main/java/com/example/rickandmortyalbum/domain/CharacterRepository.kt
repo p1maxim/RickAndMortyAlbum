@@ -1,4 +1,4 @@
-package com.example.rickandmortyalbum.data.repository
+package com.example.rickandmortyalbum.domain
 
 import androidx.paging.PagingData
 import com.example.rickandmortyalbum.data.model.CharacterItem

@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">RickAndMortyAlbum</string>
-    <string name="status">Status</string>
+    <string name="status">Status:</string>
+    <string name="back_to_previous">Back to previous screen</string>
+    <string name="gender">Gender:</string>
+    <string name="location">Location:</string>
+    <string name="avatar">Avatar of character</string>
+    <string name="retry">Retry</string>
+    <string name="error">Error:</string>
+    <string name="search">Search...</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_more_data">No more data to load</string>
+    <string name="caching_data">Caching data:</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="rick_and_morty">Rick and Morty Characters</string>
+    <string name="filtered_by_name">Filtered by Name:</string>
+    <string name="unknown_error">Unknown Error</string>
 </resources>

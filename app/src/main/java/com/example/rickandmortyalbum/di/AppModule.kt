@@ -3,11 +3,11 @@ package com.example.rickandmortyalbum.di
 import android.content.Context
 import com.example.rickandmortyalbum.data.db.AlbumDb
 import com.example.rickandmortyalbum.data.remote.CharacterRemoteService
-import com.example.rickandmortyalbum.data.remote.DataStoreManager
+import com.example.rickandmortyalbum.data.repository.DataStoreManager
 import com.example.rickandmortyalbum.data.remote.DataStoreManagerImpl
-import com.example.rickandmortyalbum.data.repository.CharacterRepository
+import com.example.rickandmortyalbum.domain.CharacterRepository
 import com.example.rickandmortyalbum.data.repository.CharacterRepositoryImpl
-import com.example.rickandmortyalbum.data.repository.ConfigDataRepository
+import com.example.rickandmortyalbum.domain.ConfigDataRepository
 import com.example.rickandmortyalbum.data.repository.ConfigDataRepositoryImpl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

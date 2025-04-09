@@ -11,24 +11,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.rickandmortyalbum.R
 import com.example.rickandmortyalbum.ui.characters.widgets.ErrorView
-import com.example.rickandmortyalbum.ui.characters.widgets.LoadingView
 import com.example.rickandmortyalbum.ui.characters.widgets.NotLoadView
 import com.example.rickandmortyalbum.ui.characters.widgets.CharacterItemView
 import com.example.rickandmortyalbum.ui.characters.widgets.SearchBarWidget
 import com.example.rickandmortyalbum.ui.characters.widgets.ToggleBarWidget
-import com.example.rickandmortyalbum.ui.theme.RickAndMortyAlbumTheme
-import timber.log.Timber
+import com.example.rickandmortyalbum.ui.theme.LightBlue
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -39,6 +37,7 @@ fun CharactersScreen(
 
     val characters = viewModel.charactersStateFlow.collectAsLazyPagingItems()
     val searchQuery = viewModel.searchStateFlow.collectAsState()
+    val requestedQuery = viewModel.requestedSearchFlow.collectAsState()
     val useDbState = viewModel.useDb.collectAsState(false)
     val isRefreshing = characters.loadState.refresh is LoadState.Loading
     val pullRefreshState = rememberPullRefreshState(
@@ -46,16 +45,12 @@ fun CharactersScreen(
         onRefresh = { characters.refresh() }
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchAllCharacters(searchQuery.value)
-    }
-
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color(0xff66b2ff))
+                .background(color = LightBlue)
                 .padding(innerPadding)
         ) {
             ToggleBarWidget(
@@ -68,7 +63,6 @@ fun CharactersScreen(
                 query = searchQuery.value,
                 onQueryChange = { newQuery -> viewModel.onSearchQueryChanged(newQuery) },
                 onSearch = {
-                    Timber.d("Searching for: ${searchQuery.value}")
                     viewModel.onSearchClicked()
                 },
                 modifier = Modifier
@@ -87,19 +81,21 @@ fun CharactersScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Rick and Morty Characters",
+                        text = stringResource(R.string.rick_and_morty),
                         style = MaterialTheme.typography.titleLarge
                     )
-                    Text(
-                        text = "Filtered by Name: ${searchQuery.value}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+                    if(requestedQuery.value.isNotBlank()) {
+                        Text(
+                            text = "${stringResource(R.string.filtered_by_name)} ${requestedQuery.value}",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
                 }
 
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 110.dp)
+                        .padding(top = 90.dp)
                 ) {
                     items(
                         count = characters.itemCount
@@ -114,24 +110,19 @@ fun CharactersScreen(
 
                     characters.apply {
                         when {
-                            loadState.refresh is LoadState.Loading -> {
-                                item { LoadingView() }
-                            }
-                            loadState.append is LoadState.Loading -> {
-                                item { LoadingView() }
-                            }
-
                             loadState.append is LoadState.NotLoading -> {
                                 item { NotLoadView() }
                             }
 
                             loadState.refresh is LoadState.Error -> {
                                 val error = (loadState.refresh as LoadState.Error).error
-                                item { ErrorView(error.message ?: "Unknown Error") { retry() } }
+                                item { ErrorView(error.message ?:
+                                    stringResource(R.string.unknown_error)) { retry() } }
                             }
                             loadState.append is LoadState.Error -> {
                                 val error = (loadState.append as LoadState.Error).error
-                                item { ErrorView(error.message ?: "Unknown Error") { retry() } }
+                                item { ErrorView(error.message ?:
+                                    stringResource(R.string.unknown_error)) { retry() } }
                             }
                         }
                     }
@@ -140,6 +131,7 @@ fun CharactersScreen(
                 PullRefreshIndicator(
                     refreshing = isRefreshing,
                     state = pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter)
                 )
 
             }
@@ -150,7 +142,5 @@ fun CharactersScreen(
 @Preview(showBackground = true)
 @Composable
 fun CharactersScreenPreview() {
-    RickAndMortyAlbumTheme {
-        CharactersScreen(onItemClick = {})
-    }
+    CharactersScreen(onItemClick = {})
 }

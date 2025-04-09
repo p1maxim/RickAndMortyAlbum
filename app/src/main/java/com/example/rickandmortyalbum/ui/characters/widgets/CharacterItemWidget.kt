@@ -23,10 +23,12 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.rickandmortyalbum.R
 import com.example.rickandmortyalbum.data.model.CharacterItem
 
 @Composable
@@ -71,12 +73,12 @@ fun CharacterItemView(
             ) {
                 Image(
                     painter = imagePainter,
-                    contentDescription = "Avatar",
+                    contentDescription = stringResource(R.string.avatar),
                     modifier = Modifier
                         .size(60.dp)
                         .clip(RoundedCornerShape(50))
                         .background(Color.Gray)
-                        .border(width = 2.dp, color = Color(0xFFFF0000), shape = CircleShape)
+                        .border(width = 2.dp, color = Color.Red, shape = CircleShape)
                     ,
                     contentScale = ContentScale.Crop
                 )
@@ -92,7 +94,7 @@ fun CharacterItemView(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Статус: ${character.status}",
+                        text = "${stringResource(R.string.status)} ${character.status}",
                         color = Color.Cyan,
                         style = TextStyle(shadow = Shadow(color = Color.Black, blurRadius = 7.5f)),
                     )

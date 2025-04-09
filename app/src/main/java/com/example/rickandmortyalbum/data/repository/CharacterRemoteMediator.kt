@@ -1,4 +1,4 @@
-package com.example.rickandmortyalbum.data.remote
+package com.example.rickandmortyalbum.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -8,9 +8,11 @@ import androidx.room.withTransaction
 import com.example.rickandmortyalbum.data.db.AlbumDb
 import com.example.rickandmortyalbum.data.model.CharacterItem
 import com.example.rickandmortyalbum.data.model.RemoteKeys
+import com.example.rickandmortyalbum.data.remote.CharacterRemoteService
 import retrofit2.HttpException
 import java.io.IOException
 
+// Mediator to resolve caching to local DB logic for Characters with paging support
 @OptIn(ExperimentalPagingApi::class)
 class CharacterRemoteMediator(
     private val apiService: CharacterRemoteService,
