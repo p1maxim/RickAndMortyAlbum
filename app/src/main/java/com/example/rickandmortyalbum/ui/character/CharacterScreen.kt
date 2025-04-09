@@ -1,42 +1,22 @@
 package com.example.rickandmortyalbum.ui.character
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
-import com.example.rickandmortyalbum.data.model.CharacterItem
 import com.example.rickandmortyalbum.data.model.DataResponse
-import com.example.rickandmortyalbum.ui.characters.CharactersViewModel
-import com.example.rickandmortyalbum.ui.theme.RickAndMortyAlbumTheme
+import com.example.rickandmortyalbum.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +33,7 @@ fun CharacterScreen(
 
     when (itemState.value.status) {        
         DataResponse.Status.SUCCESS -> {
-            itemState.value.data?.let { CharacterSuccessView(it) }
+            itemState.value.data?.let { CharacterDetailWidget(it) }
             Column(
                 modifier = Modifier.fillMaxSize()
                     .padding(vertical = 16.dp),
@@ -61,7 +41,7 @@ fun CharacterScreen(
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Button(onClick = { onBackClick() }) {
-                    Text("Back to previous screen")
+                    Text(stringResource(R.string.back_to_previous))
                 }
             }
         }
@@ -73,13 +53,25 @@ fun CharacterScreen(
             ) {
                 Text("Error: ${itemState.value.message}", color = Color.Red)
                 Button(onClick = { onBackClick() }) {
-                    Text("Back to previous screen")
+                    Text(stringResource(R.string.back_to_previous))
                 }
             }
         }
         DataResponse.Status.LOADING -> {
-            CircularProgressIndicator()
+            LoadingView()
         }
+    }
+}
+
+@Composable
+fun LoadingView() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        androidx.compose.material.CircularProgressIndicator()
     }
 }
 
@@ -89,7 +81,7 @@ fun PreviewCharacterDetailScreen() {
     val viewModel: CharacterViewModel =  hiltViewModel()
     CharacterScreen(
         characterId = 0,
-        onBackClick = {  },
-        viewModel = TODO()
+        onBackClick = {},
+        viewModel = viewModel
     )
 }

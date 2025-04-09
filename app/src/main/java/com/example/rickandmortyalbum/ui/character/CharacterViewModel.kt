@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyalbum.data.model.CharacterItem
 import com.example.rickandmortyalbum.data.model.DataResponse
-import com.example.rickandmortyalbum.data.repository.CharacterRepository
+import com.example.rickandmortyalbum.domain.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

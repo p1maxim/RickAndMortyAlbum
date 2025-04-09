@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -15,18 +14,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.rickandmortyalbum.R
 import com.example.rickandmortyalbum.data.model.CharacterItem
+import com.example.rickandmortyalbum.ui.theme.LightBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterSuccessView(
+fun CharacterDetailWidget(
     character: CharacterItem
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0xff66b2ff)),
+            .background(color = LightBlue),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CenterAlignedTopAppBar(
@@ -47,7 +49,7 @@ fun CharacterSuccessView(
         )
 
         Text(
-            text = "Статус: ${character.status}",
+            text = "${stringResource(R.string.status)} ${character.status}",
             style = MaterialTheme.typography.bodyLarge,
             color = Color.Cyan
         )
@@ -57,7 +59,7 @@ fun CharacterSuccessView(
         )
 
         Text(
-            text = "Пол: ${character.gender}",
+            text = "${stringResource(R.string.gender)} ${character.gender}",
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -66,7 +68,7 @@ fun CharacterSuccessView(
         )
 
         Text(
-            text = "Местоположение: ${character.location.name}",
+            text = "${stringResource(R.string.location)} ${character.location.name}",
             style = MaterialTheme.typography.bodyMedium
         )
 

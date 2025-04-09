@@ -17,8 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.example.rickandmortyalbum.R
 
 @Composable
 fun SearchBarWidget(
@@ -34,13 +36,12 @@ fun SearchBarWidget(
             .background(Color.White.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Поле ввода
         TextField(
             value = query,
             onValueChange = onQueryChange,
             modifier = Modifier
                 .weight(1f),
-            placeholder = { Text("Поиск...") },
+            placeholder = { Text(stringResource(R.string.search)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
@@ -71,7 +72,7 @@ fun SearchBarWidget(
                     onSearch()
                 }
             ) {
-                Text("Отмена")
+                Text(stringResource(R.string.cancel))
             }
         }
     }

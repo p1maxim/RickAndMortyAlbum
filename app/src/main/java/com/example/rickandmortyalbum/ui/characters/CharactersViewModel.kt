@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.rickandmortyalbum.data.model.CharacterItem
-import com.example.rickandmortyalbum.data.repository.CharacterRepository
-import com.example.rickandmortyalbum.data.repository.ConfigDataRepository
+import com.example.rickandmortyalbum.domain.CharacterRepository
+import com.example.rickandmortyalbum.domain.ConfigDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +28,13 @@ class CharactersViewModel @Inject constructor(
 
     val useDb = configDataRepository.getUseDbFlag()
 
+    private val _requestedSearchFlow = MutableStateFlow<String>("")
+    val requestedSearchFlow: StateFlow<String> get() = _requestedSearchFlow
+
+    init {
+        fetchAllCharacters(requestedSearchFlow.value)
+    }
+
     fun fetchAllCharacters(name: String?) {
         viewModelScope.launch {
             characterRepository.getCharacters(name).cachedIn(viewModelScope).collectLatest {
@@ -36,7 +43,10 @@ class CharactersViewModel @Inject constructor(
         }
     }
 
-    fun onSearchClicked() = fetchAllCharacters(searchStateFlow.value)
+    fun onSearchClicked() {
+        fetchAllCharacters(searchStateFlow.value)
+        _requestedSearchFlow.value = searchStateFlow.value
+    }
 
     fun onSearchQueryChanged(newQuery: String) {
         _searchStateFlow.update { newQuery }

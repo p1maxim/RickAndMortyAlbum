@@ -10,14 +10,10 @@ import androidx.room.TypeConverters
 data class CharacterItem(
     @PrimaryKey
     val id: Int,
-    val created: String,
-    val gender: String, //
+    val gender: String,
     val image: String,
-    val name: String, //
-    val species: String,
-    val status: String, //
-    val type: String,
-    val url: String,
+    val name: String,
+    val status: String,
     val location: CharLocation,
 )
 

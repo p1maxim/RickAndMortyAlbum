@@ -6,11 +6,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.rickandmortyalbum.data.db.AlbumDb
 import com.example.rickandmortyalbum.data.model.CharacterItem
-import com.example.rickandmortyalbum.data.remote.CharacterRemoteMediator
 import com.example.rickandmortyalbum.data.remote.CharacterRemoteService
 import com.example.rickandmortyalbum.data.model.DataResponse
-import com.example.rickandmortyalbum.data.remote.CharacterPagingSource
-import com.example.rickandmortyalbum.data.remote.DataStoreManager
+import com.example.rickandmortyalbum.domain.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
@@ -25,6 +23,8 @@ class CharacterRepositoryImpl @Inject constructor(
 
     val useDbFlow = dataStoreManager.readUseDbFlag()
 
+    // Get list of characters
+    // The real source of fetched data (local or remote) will be reported to log
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getCharacters(name: String?): Flow<PagingData<CharacterItem>> {
         return if(useDbFlow.first()) {
@@ -57,6 +57,8 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
+    // Get one character by Id
+    // The real source of fetched data (local or remote) will be reported to log
     override fun getCharacter(id: Int): Flow<DataResponse<CharacterItem>> = channelFlow {
         if(useDbFlow.first()) {
             localDb.characterDao().getCharacter(id).collect { cachedItem ->

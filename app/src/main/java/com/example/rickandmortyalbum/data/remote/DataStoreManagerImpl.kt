@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.rickandmortyalbum.data.repository.DataStoreManager
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -32,7 +33,7 @@ class DataStoreManagerImpl @Inject constructor(
 
     }
 
-    // Get value to datastore
+    // Get value from datastore
     override fun readUseDbFlag(): Flow<Boolean> {
         return try {
             context.dataStore.data

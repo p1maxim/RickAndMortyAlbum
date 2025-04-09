@@ -1,4 +1,4 @@
-package com.example.rickandmortyalbum.data.remote
+package com.example.rickandmortyalbum.data.repository
 
 import kotlinx.coroutines.flow.Flow
 

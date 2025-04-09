@@ -1,6 +1,5 @@
 package com.example.rickandmortyalbum.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
