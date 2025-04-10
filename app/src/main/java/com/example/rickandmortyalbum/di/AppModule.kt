@@ -1,6 +1,7 @@
 package com.example.rickandmortyalbum.di
 
 import android.content.Context
+import com.example.rickandmortyalbum.BuildConfig
 import com.example.rickandmortyalbum.data.db.AlbumDb
 import com.example.rickandmortyalbum.data.remote.CharacterRemoteService
 import com.example.rickandmortyalbum.data.repository.DataStoreManager
@@ -27,7 +28,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRetrofit(gson: Gson) : Retrofit = Retrofit.Builder()
-        .baseUrl("https://rickandmortyapi.com/api/")
+        .baseUrl(BuildConfig.API_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 

@@ -1,5 +1,6 @@
 package com.example.rickandmortyalbum.ui.character
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Button
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rickandmortyalbum.data.model.DataResponse
 import com.example.rickandmortyalbum.R
+import com.example.rickandmortyalbum.ui.theme.LightBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,7 +70,7 @@ fun LoadingView() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .background(color = LightBlue),
         contentAlignment = Alignment.Center
     ) {
         androidx.compose.material.CircularProgressIndicator()
