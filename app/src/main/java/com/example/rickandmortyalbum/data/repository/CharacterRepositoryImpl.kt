@@ -22,6 +22,11 @@ class CharacterRepositoryImpl @Inject constructor(
 ) : CharacterRepository {
 
     val useDbFlow = dataStoreManager.readUseDbFlag()
+    val pagingConfig = PagingConfig(
+        pageSize = 20,
+        enablePlaceholders = false,
+        initialLoadSize = 100
+    )
 
     // Get list of characters
     // The real source of fetched data (local or remote) will be reported to log
@@ -30,11 +35,7 @@ class CharacterRepositoryImpl @Inject constructor(
         return if(useDbFlow.first()) {
             Timber.d("Character data will be fetched from cache of DB")
             Pager(
-                config = PagingConfig(
-                    pageSize = 20,
-                    enablePlaceholders = false,
-                    initialLoadSize = 100
-                ),
+                config = pagingConfig,
                 remoteMediator = CharacterRemoteMediator(
                     apiService = apiService,
                     db = localDb,
@@ -45,11 +46,7 @@ class CharacterRepositoryImpl @Inject constructor(
         } else {
             Timber.d("Character data fetched from Network without DB")
             Pager(
-                config = PagingConfig(
-                    pageSize = 20,
-                    enablePlaceholders = false,
-                    initialLoadSize = 100
-                ),
+                config = pagingConfig,
                 pagingSourceFactory = {
                     CharacterPagingSource(apiService, if (name.isNullOrBlank()) null else name)
                 }
